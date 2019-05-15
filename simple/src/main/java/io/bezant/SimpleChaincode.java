@@ -7,6 +7,8 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
 
 import java.util.List;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class SimpleChaincode extends ChaincodeBase {
     private static final Log log = LogFactory.getLog(SimpleChaincode.class);
 
@@ -30,7 +32,9 @@ public class SimpleChaincode extends ChaincodeBase {
             if ("get".equals(func)) {
                 return get(stub, args);
             } else if ("put".equals(func)) {
-                return put(stub, args);
+                return put(stub, args);}
+            else if ("getEnrollmentId".equals(func)) {
+                return getEnrollmentId(stub, args);
             }
 
             return newErrorResponse(("No function name :" + func + " found"));
@@ -62,5 +66,14 @@ public class SimpleChaincode extends ChaincodeBase {
         }
 
         return newSuccessResponse(resultValueBytes);
+    }
+
+    private Response getEnrollmentId(ChaincodeStub stub, List<String> args) {
+        if (args.size() != 0) {
+            return newErrorResponse("Incorrect number of arguments. Expecting 0");
+        }
+
+        String enrollmentId = ChaincodeUtil.getEnrollmentID(stub);
+        return newSuccessResponse(enrollmentId.getBytes(UTF_8));
     }
 }

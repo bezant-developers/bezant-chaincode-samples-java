@@ -182,3 +182,35 @@ public class SimpleChaincode extends ChaincodeBase {
 ``` console
 zip -r chaincode.zip build.gradle src
 ```
+
+## Local environment test
+[bezant-chaincode-test-network link](https://github.com/bezant-developers/bezant-chaincode-test-network)
+
+``Put``
+```bash
+docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-channel -n simple-java --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["put", "a", "10"]}'
+```
+
+``Get``
+```bash
+docker exec cli peer chaincode query -C bezant-channel -n simple-java --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["get", "a"]}'
+```
+
+``Get enrollmentId``
+```bash
+docker exec cli peer chaincode query -C bezant-channel -n simple-java --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["getEnrollmentId"]}'
+```
+
+``Instantiate``
+```bash
+docker exec cli peer chaincode install -n simple-java -v 1.0 -l java -p /opt/gopath/src/simple-java
+docker exec cli2 peer chaincode install -n simple-java -v 1.0 -l java -p /opt/gopath/src/simple-java                                                                                            
+docker exec cli peer chaincode instantiate -o orderer.example.com:7050 -C bezant-channel -n simple-java -v 1.0 -c '{"Args":["init"]}'               
+```
+
+``Upgrade``
+```bash
+docker exec cli peer chaincode install -n simple-java -v 1.1 -l java -p /opt/gopath/src/simple-java
+docker exec cli2 peer chaincode install -n simple-java -v 1.1 -l java -p /opt/gopath/src/simple-java                                                                                            
+docker exec cli peer chaincode upgrade -o orderer.example.com:7050 -C bezant-channel -n simple-java -v 1.1 -c '{"Args":["init"]}'               
+```
