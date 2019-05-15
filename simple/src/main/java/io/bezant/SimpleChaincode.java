@@ -29,15 +29,12 @@ public class SimpleChaincode extends ChaincodeBase {
             String func = stub.getFunction();
             List<String> args = stub.getParameters();
 
-            if ("get".equals(func)) {
-                return get(stub, args);
-            } else if ("put".equals(func)) {
-                return put(stub, args);}
-            else if ("getEnrollmentId".equals(func)) {
-                return getEnrollmentId(stub, args);
+            switch (func) {
+                case "get" : return get(stub, args);
+                case "put" : return put(stub, args);
+                case "getEnrollmentId" : return getEnrollmentId(stub, args);
+                default: return newErrorResponse("No function name :" + func + " found");
             }
-
-            return newErrorResponse(("No function name :" + func + " found"));
         }
         catch (Exception e) {
             return newErrorResponse(e.getMessage());
