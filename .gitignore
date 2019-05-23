@@ -8,3 +8,6 @@
 *.ipr
 /*/out/
 /core/target
+
+/*/gradlew*
+/*/gradle
