@@ -32,7 +32,7 @@ public class SimpleChaincode extends ChaincodeBase {
             switch (func) {
                 case "get" : return get(stub, args);
                 case "put" : return put(stub, args);
-                case "putAndGetEnrollmentId" : return putAndGetEnrollmentId(stub, args);
+                case "putByWalletAddress" : return putByWalletAddress(stub, args);
                 default: return newErrorResponse("No function name :" + func + " found");
             }
         }
@@ -65,14 +65,15 @@ public class SimpleChaincode extends ChaincodeBase {
         return newSuccessResponse(resultValueBytes);
     }
 
-    private Response putAndGetEnrollmentId(ChaincodeStub stub, List<String> args) {
-        if (args.size() != 2) {
-            return newErrorResponse("Incorrect number of arguments. Expecting 2");
+    private Response putByWalletAddress(ChaincodeStub stub, List<String> args) {
+        if (args.size() != 1) {
+            return newErrorResponse("Incorrect number of arguments. Expecting 1");
         }
 
-        stub.putStringState(args.get(0), args.get(1));
+        String walletAddress = ChaincodeUtil.getWalletAddress(stub);
 
-        String enrollmentId = ChaincodeUtil.getEnrollmentID(stub);
-        return newSuccessResponse(enrollmentId.getBytes(UTF_8));
+        stub.putStringState(walletAddress, args.get(0));
+
+        return newSuccessResponse();
     }
 }

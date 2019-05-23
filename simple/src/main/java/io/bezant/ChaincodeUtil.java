@@ -15,7 +15,7 @@ public class ChaincodeUtil {
     private static final String CERT_PARSING_ERROR = "Certificate parsing error occured";
     private static final String CERT_INVOKER_INCORRECT_ERROR = "The information of the invoker's certificate is wrong";
 
-    public static String getEnrollmentID(ChaincodeStub stub) {
+    public static String getWalletAddress(ChaincodeStub stub) {
         String creator = new String(stub.getCreator(), UTF_8);
         int startIndex = creator.indexOf(PREFIX_CERTIFICATE);
         String pem = creator.substring(startIndex);
