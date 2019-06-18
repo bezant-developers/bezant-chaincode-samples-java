@@ -17,7 +17,7 @@ docker exec cli peer chaincode query -C bezant-channel -n simple-java --peerAddr
 
 ``PutByeWalletAddress``
 ```bash
-docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-channel -n simple-java --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["putByWalletAddress", "a", "10"]}'
+docker exec cli peer chaincode invoke -o orderer.example.com:7050 -C bezant-channel -n simple-java --peerAddresses peer0.bezant.example.com:7051 -c '{"Args":["putByWalletAddress", "10"]}'
 ```
 
 ``Instantiate``
